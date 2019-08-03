@@ -1,0 +1,56 @@
+{
+    "name": "leitom/geo",
+    "description": "A package that leverage redis geospatial functionality for super fast searching and integrates beautifully with Laravel.",
+    "keywords": [
+        "leitom",
+        "geo",
+        "redis",
+        "laravel"
+    ],
+    "homepage": "https://github.com/leitom/geospatial",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Tommy Leirvik",
+            "email": "leirvik.tommy@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "5.8.*",
+        "predis/predis": "^1.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "~8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Leitom\\Geo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Leitom\\Geo\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leitom\\Geo\\GeoServiceProvider"
+            ],
+            "aliases": {
+                "Geo": "Leitom\\Geo\\Facades\\Geo"
+            }
+        }
+    }
+}
