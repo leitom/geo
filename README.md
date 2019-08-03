@@ -53,7 +53,7 @@ $user->geoUnit // km
 $user->geoDistance; // 0.999
 ```
 
-The ```toArray()`` function is also overrided so that these two attributes would be loaded.
+The ```toArray()``` function is also overrided so that these two attributes would be loaded.
 
 ``` php
 [
