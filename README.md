@@ -105,6 +105,33 @@ $locationA = new Leitom\Geo\Coordinate('my-car', -115.17087, 36.12306);
 Leitom\Geo\Facades\Geo::index('cars')->from($locationA, 10, 'ASC'); // [['my-car' => 0], ['your-car' => 0.2900]]
 ```
 
+### Add a coordinate to an index
+
+``` php
+$locationA = new Leitom\Geo\Coordinate('my-car', -115.17087, 36.12306);
+
+Leitom\Geo\Facades\Geo::index('cars')->add($locationA);
+```
+
+### Add multiple coordinates to an index
+
+``` php
+$locationA = new Leitom\Geo\Coordinate('my-car', -115.17087, 36.12306);
+$locationB = new Leitom\Geo\Coordinate('robins-car', -115.171971, 36.120609);
+
+Leitom\Geo\Facades\Geo::index('cars')->add($locationA, $locationB);
+
+Leitom\Geo\Facades\Geo::index('cars')->add([$locationA, $locationB]);
+```
+
+### Remove coordinates from an index
+
+``` php
+Leitom\Geo\Facades\Geo::index('cars')->remove('my-car');
+
+Leitom\Geo\Facades\Geo::index('cars')->remove('my-car', 'robins-car');
+```
+
 ### Import and Remove existing models
 
 The package include two commands to handle import and remove models from the Redis index. This is usefull if you integrate this package in an existing project.
