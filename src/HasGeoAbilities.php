@@ -4,6 +4,7 @@ namespace Leitom\Geo;
 
 use Illuminate\Support\Arr;
 use Leitom\Geo\Facades\Geo;
+use Illuminate\Support\Facades\DB;
 use Leitom\Geo\Events\ModelsRemoved;
 use Leitom\Geo\Events\ModelsImported;
 use Illuminate\Support\Collection as BaseCollection;
@@ -80,16 +81,24 @@ trait HasGeoAbilities
 
     public function scopeGeoNearest($builder, $radius = 10)
     {
-        $locations = Geo::index($this->geoIndex())->from($this->toCoordinate(), $radius);
+        $locations = array_keys(Geo::index($this->geoIndex())->from($this->toCoordinate(), $radius));
 
-        $builder->whereIn($this->geoKeyName(), array_keys($locations));
+        $builder->whereIn($this->geoKeyName(), $locations);
+
+        if ($this->databaseDriver() !== 'sqlite') {
+            $builder->orderByRaw(DB::raw(sprintf('FIELD(%s,%s)', $this->geoKeyName(), implode(',', $locations))));
+        }
     }
 
     public function scopeGeoSearch($builder, $longitude, $latitude, $radius, $sort = 'ASC')
     {
-        $locations = Geo::index($this->geoIndex())->search($longitude, $latitude, $radius, $sort);
+        $locations = array_keys(Geo::index($this->geoIndex())->search($longitude, $latitude, $radius, $sort));
 
-        $builder->whereIn($this->geoKeyName(), array_keys($locations));
+        $builder->whereIn($this->geoKeyName(), $locations);
+
+        if ($this->databaseDriver() !== 'sqlite') {
+            $builder->orderByRaw(DB::raw(sprintf('FIELD(%s,%s)', $this->geoKeyName(), implode(',', $locations))));
+        }
     }
 
     public function getGeoUnitAttribute()
@@ -151,5 +160,12 @@ trait HasGeoAbilities
         }
 
         return $attributes;
+    }
+
+    protected function databaseDriver()
+    {
+        $connection = config('database.default');
+
+        return config("database.connections.{$connection}.driver");
     }
 }
