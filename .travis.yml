@@ -14,6 +14,8 @@ services:
   - redis-server --port 6380
 
 before_script:
+  - sudo service redis-server start
+  - sleep 20
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
