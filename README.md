@@ -43,7 +43,7 @@ Here we perform a search with Longitude, Latitude and Radius.
 The unit of the radius is configured in the configuration file, default km = kilometers. With the 4. argument to the ```geoSearch``` function you can specify the sorting, default ```ASC```.
 
 ``` php
-$users = GeoModel::geoSearch(-115.17258, 36.11996, 10)->get();
+$users = User::geoSearch(-115.17258, 36.11996, 10)->get();
 ```
 
 The package adds two attributes to every model who implements the HasGeoAbilities. We add the unit and distance wich you can display to the end user.
@@ -85,7 +85,7 @@ $users = $userA->geoNearest()->paginate(5);
 ### Perform a search via the ```Geo``` facade
 
 ``` php
-$locations = Leitom\Geo\Facades\Geo::search(-115.17258, 36.11996, 10);
+$locations = Leitom\Geo\Facades\Geo::index('cars')->search(-115.17258, 36.11996, 10);
 ```
 
 ### Get the distance between two locations
@@ -94,7 +94,7 @@ $locations = Leitom\Geo\Facades\Geo::search(-115.17258, 36.11996, 10);
 $locationA = new Leitom\Geo\Coordinate('my-car', -115.17087, 36.12306);
 $locationB = new Leitom\Geo\Coordinate('robins-car', -115.171971, 36.120609);
 
-Leitom\Geo\Facades\Geo::between($locationA, $locationB); // 0.2900
+Leitom\Geo\Facades\Geo::index('cars')->between($locationA, $locationB); // 0.2900
 ```
 
 ### Get a list of the nearest locations from a given location
@@ -102,7 +102,7 @@ Leitom\Geo\Facades\Geo::between($locationA, $locationB); // 0.2900
 ``` php
 $locationA = new Leitom\Geo\Coordinate('my-car', -115.17087, 36.12306);
 
-Leitom\Geo\Facades\Geo::from($locationA, 10, 'ASC'); // [['my-car' => 0], ['your-car' => 0.2900]]
+Leitom\Geo\Facades\Geo::index('cars')->from($locationA, 10, 'ASC'); // [['my-car' => 0], ['your-car' => 0.2900]]
 ```
 
 ### Import and Remove existing models
