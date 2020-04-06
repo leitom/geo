@@ -85,7 +85,7 @@ trait HasGeoAbilities
 
         $builder->whereIn($this->geoKeyName(), $locations);
 
-        if ($this->databaseDriver() !== 'sqlite') {
+        if ($this->databaseDriver() !== 'sqlite' && ! empty($locations)) {
             $builder->orderByRaw(DB::raw(sprintf('FIELD(%s,%s)', $this->geoKeyName(), implode(',', $locations))));
         }
     }
@@ -96,7 +96,7 @@ trait HasGeoAbilities
 
         $builder->whereIn($this->geoKeyName(), $locations);
 
-        if ($this->databaseDriver() !== 'sqlite') {
+        if ($this->databaseDriver() !== 'sqlite' && ! empty($locations)) {
             $builder->orderByRaw(DB::raw(sprintf('FIELD(%s,%s)', $this->geoKeyName(), implode(',', $locations))));
         }
     }
